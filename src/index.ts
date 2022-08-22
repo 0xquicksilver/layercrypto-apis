@@ -34,7 +34,8 @@ app.get('/posts', async (req: Request, res: Response) => {
 });
 
 app.get('/posts/:slug', async (req: Request, res: Response) => {
-  const data = await _Request('POSTS');
+  try {
+    const data = await _Request('POSTS');
   const categories = await _Request('CATEGORIES');
   const author = await _Request("USERS");
   const tags = await _Request('TAGS');
@@ -44,6 +45,7 @@ app.get('/posts/:slug', async (req: Request, res: Response) => {
       const arr = categories.filter((v:any)=> v.id === id)
       category.push(arr[0])
   })
+  
   result.categories = category.filter((v:any)=> v.id !== 1)
   result.author = author.find((v:any)=> v.id === result.author)
   const tag:any = [];
@@ -55,6 +57,9 @@ app.get('/posts/:slug', async (req: Request, res: Response) => {
   result.featured_media = await _Request("MEDIA", result.featured_media).then((v:any)=> v.source_url)
   delete result._links
   res.send(result)
+  } catch (error) {
+    res.send('error')
+  }
 });
 
 app.listen(port, () => {
