@@ -5,9 +5,7 @@ import cors from 'cors'
 
 dotenv.config();
 const app: Express = express();
-app.use(cors({
-  // origin: 'http://127.0.0.1:5173/'
-}));
+app.use(cors());
 const port = process.env.PORT;
 const wp_url = "http://layer404.biz/wp-json/wp/v2/"
 const API_ENDPOINT= {
@@ -45,7 +43,7 @@ app.get('/posts/:slug', async (req: Request, res: Response) => {
       const arr = categories.filter((v:any)=> v.id === id)
       category.push(arr[0])
   })
-  
+
   result.categories = category.filter((v:any)=> v.id !== 1)
   result.author = author.find((v:any)=> v.id === result.author)
   const tag:any = [];
