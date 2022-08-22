@@ -32,7 +32,6 @@ app.get('/posts', async (req: Request, res: Response) => {
 });
 
 app.get('/posts/:slug', async (req: Request, res: Response) => {
-  try {
     const data = await _Request('POSTS');
   const categories = await _Request('CATEGORIES');
   const author = await _Request("USERS");
@@ -55,9 +54,6 @@ app.get('/posts/:slug', async (req: Request, res: Response) => {
   result.featured_media = await _Request("MEDIA", result.featured_media).then((v:any)=> v.source_url)
   delete result._links
   res.send(result)
-  } catch (error) {
-    res.send('error')
-  }
 });
 
 app.listen(port, () => {
